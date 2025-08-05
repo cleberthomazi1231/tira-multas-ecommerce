@@ -1,5 +1,3 @@
-import { headers } from 'next/headers';
-import { userAgent } from 'next/server';
 import Image from 'next/image';
 
 import FAQ from '@core/shared/components/FAQ';
@@ -8,7 +6,10 @@ import Contact from '@core/shared/components/Contact';
 import SearchHome from '@core/shared/components/SearchHome';
 
 export default async function Home() {
-    const { device } = userAgent({ headers: headers() });
+    // @CHECK
+     const device = {
+        type: 'notmobile'
+    }
 
     const resources = await getAllResources();
     

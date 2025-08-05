@@ -2,8 +2,6 @@ import Footer from '@core/shared/components/Footer';
 import './globals.css';
 import Header from '@core/shared/components/Header';
 import { Inter, Roboto } from 'next/font/google';
-import { userAgent } from 'next/server';
-import { headers } from 'next/headers';
 
 const inter = Inter({ 
     subsets: ['latin'],
@@ -25,7 +23,10 @@ export default function RootLayout({
 }: {
     children: React.ReactNode
 }) {
-    const device = userAgent({ headers: headers() });
+    // @CHECK
+    const device = {
+        type: 'notmobile'
+    }
 
     return (
         <html lang="pt-br">
