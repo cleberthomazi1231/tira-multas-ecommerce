@@ -1,0 +1,4 @@
+*.js
+node_modules
+./prettier.config.js
+prettier.config.js
