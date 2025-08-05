@@ -1,33 +1,63 @@
-import React from 'react';
-import { FiMenu } from 'react-icons/fi';
+'use client';
+import { Cambay } from 'next/font/google';
+import { BiMenu } from 'react-icons/bi';
 
-import { Flex, Icon } from '@chakra-ui/react';
+import Link from 'next/link';
+import UserIcon from '../Icons/User';
+import { useAuth } from '@core/shared/hooks/useAuth';
+import { useCallback, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
-import { useLayout } from '../../hooks/layout';
+const cambay = Cambay({ 
+    subsets: ['latin'],
+    weight: ['700']
+}); 
 
-const Header: React.FC = () => {
-    const { showMenu, setShowMenu } = useLayout();
+export default function Header({ device }: any) {
+    const { getUser, logout } = useAuth();
+    const user = getUser(); 
+    const router = useRouter();
+
+    const handleLogout = useCallback(() => {
+        logout();
+    }, [logout]);
+
+    useEffect(() => {
+        if(!user)
+            router.push('/');
+    }, [router, user]);
+
 
     return (
-        <Flex
-            width="100%"
-            height="56px"
-            justifyContent="center"
-            alignItems="center"
-            color="blue.800"
-            backgroundColor="white"
-            boxShadow="0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
-            px="24px"
-        >
-            <Icon
-                as={FiMenu}
-                color="orange.500"
-                fontSize="24px"
-                display={['block', 'block', 'block', 'none']}
-                onClick={() => setShowMenu(!showMenu)}
-            />
-        </Flex>
-    );
-};
+        <header className="flex w-full h-16 justify-between items-center bg-white">
+            <nav className='flex container justify-between items-center'>
+                <Link href="/">
+                    <Image src="/images/logo.png" width={120} height={60} alt="TiraMulta" />
+                </Link>
 
-export default Header;
+                {device.type !== 'mobile' && (
+                    <ul className={`flex gap-4 items-center text-md ${cambay.className}`}>
+                        <li><Link href="/">Início</Link></li>
+                        <li><Link href="https://revendedor.tiramulta.com.br/login" target='_blank'>Área do Parceiro</Link></li>
+                        <li>
+                            <Link className='flex gap2' 
+                                href={user ? '/meus-pedidos' : '/login'}>
+                                <UserIcon size={20} />
+                                <div className='flex items-center gap-3'>
+                                    <span className='text-yellow text-sm'>{user ? `Olá ${user.name}` : 'Fazer Login'}</span>
+                                    {user && (<span className="cursor-pointer" onClick={() => handleLogout()}>Sair</span>)}
+                                </div>
+                            </Link>
+                            
+                        </li>
+                    </ul>
+                )}
+
+                {device.type === 'mobile' && (
+                    <BiMenu className='text-yellow' size={24} />
+                )} 
+            </nav>
+        </header>
+    );
+}

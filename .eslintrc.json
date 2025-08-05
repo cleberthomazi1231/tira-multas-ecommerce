@@ -1,48 +1,43 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "eslint-plugin-import-helpers"
-  ], 
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "rules": {
-    "prettier/prettier": "error",
-    "no-console": "off",
-    "no-prototype-builtins": "off", 
-    "@typescript-eslint/no-explicit-any": "off", 
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "_"
-      }
-    ],  
-    "import-helpers/order-imports": [
-      "warn",
-      {
-        "newlinesBetween": "always", // new line between groups
-        "groups": [ 
-          "module",
-          "/^@server\/shared/",
-          "/^@/",
-          ["parent", "sibling", "index"]
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "next/core-web-vitals",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "overrides": [
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "indent": "off",
+        "@typescript-eslint/indent": ["error"],
+        "linebreak-style": [
+            "error",
+            "unix"
         ],
-        "alphabetize": { "order": "asc", "ignoreCase": true }
-      } 
-    ]
-  },
-  "settings": {
-    "import/resolver": {
-      "typescript": { 
-        "project": "./tsconfig.json"
-      }  
-    }   
-  },
-  "ignorePatterns": ["build/*", "node_modules/*"]
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    },
+    "ignorePatterns": ["node_modules/*", ".next/*", ".out/*", "!.prettierrc.js"]
 }
-  
